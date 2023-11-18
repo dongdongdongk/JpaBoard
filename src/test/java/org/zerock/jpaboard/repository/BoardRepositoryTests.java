@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.zerock.jpaboard.entity.Board;
 import org.zerock.jpaboard.entity.Member;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -31,6 +32,7 @@ public class BoardRepositoryTests {
     }
 
     @Test
+    @Transactional
     public void testRead1() {
         Optional<Board> result = boardRepository.findById(100L); // 데이터베이스에 존재하는 번호
 
