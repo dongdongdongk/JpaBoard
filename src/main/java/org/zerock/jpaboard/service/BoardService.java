@@ -1,11 +1,18 @@
 package org.zerock.jpaboard.service;
 
 import org.zerock.jpaboard.dto.BoardDTO;
+import org.zerock.jpaboard.dto.PageRequestDTO;
+import org.zerock.jpaboard.dto.PageResultDTO;
 import org.zerock.jpaboard.entity.Board;
 import org.zerock.jpaboard.entity.Member;
 
 public interface BoardService {
+
+    // 게시물 등록
     Long register(BoardDTO dto);
+
+    // 리스트 목록 처리
+    PageResultDTO<BoardDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
 
 
     default Board dtoToEntity(BoardDTO dto){
@@ -21,7 +28,7 @@ public interface BoardService {
         return board;
     }
 
-    default BoardDTO EntityToDTO(Board board, Member member, Long replyCount) {
+    default BoardDTO entityToDTO(Board board, Member member, Long replyCount) {
 
         BoardDTO boardDTO = BoardDTO.builder()
                 .bno(board.getBno())
