@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.zerock.jpaboard.dto.BoardDTO;
 import org.zerock.jpaboard.dto.PageRequestDTO;
 import org.zerock.jpaboard.dto.PageResultDTO;
+import org.zerock.jpaboard.entity.Board;
 
 @SpringBootTest
 public class BoardServiceTests {
@@ -49,12 +50,26 @@ public class BoardServiceTests {
         System.out.println(boardDTO);
     }
 
+    // 게시글 삭제 테스트
     @Test
     public void testRemove() {
 
         Long bno = 1L;
 
         boardService.removeWithReplies(bno);
+
+    }
+
+    // 게시글 수정 테스트
+    @Test
+    public void testModify() {
+        BoardDTO boardDTO = BoardDTO.builder()
+                .bno(101L)
+                .title("Title...modify")
+                .content("Content...modify")
+                //pk writer 가 반드시 있어야 한다는걸 주의
+                .build();
+        boardService.modify(boardDTO);
 
     }
 
