@@ -13,6 +13,7 @@ public class BoardServiceTests {
     @Autowired
     private BoardService boardService;
 
+    // 게시물 등록 테스트
     @Test
     public void testRegister() {
         BoardDTO boardDTO = BoardDTO.builder()
@@ -23,6 +24,7 @@ public class BoardServiceTests {
         Long bno = boardService.register(boardDTO);
     }
 
+    //게시물 리스트 조회
     @Test
     public void testList() {
 
@@ -33,6 +35,26 @@ public class BoardServiceTests {
         for (BoardDTO boardDTO : result.getDtoList()) {
             System.out.println(boardDTO);
         }
+
+    }
+
+    //게시물 상세 조회 테스트
+    @Test
+    public void testGet() {
+
+        Long bno = 100L;
+
+        BoardDTO boardDTO = boardService.get(bno);
+
+        System.out.println(boardDTO);
+    }
+
+    @Test
+    public void testRemove() {
+
+        Long bno = 1L;
+
+        boardService.removeWithReplies(bno);
 
     }
 

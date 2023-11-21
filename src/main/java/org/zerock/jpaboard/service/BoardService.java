@@ -14,6 +14,15 @@ public interface BoardService {
     // 리스트 목록 처리
     PageResultDTO<BoardDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
 
+    // 게시물 상세 조회
+    BoardDTO get(Long bno);
+
+    // 게시물 삭제
+    void removeWithReplies(Long bno); // 삭제기능
+
+    // 게시물 수정
+    void modify(BoardDTO boardDTO);
+
 
     default Board dtoToEntity(BoardDTO dto){
 
