@@ -14,6 +14,7 @@ import org.zerock.jpaboard.entity.Member;
 import org.zerock.jpaboard.repository.BoardRepository;
 import org.zerock.jpaboard.repository.ReplyRepository;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service

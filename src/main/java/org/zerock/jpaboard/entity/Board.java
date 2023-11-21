@@ -23,4 +23,13 @@ public class Board extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     private Member writer; //연관 관계 지정
 
+    // 게시글 수정을 위해서
+    public void changeTitle(String title) {
+        this.title = title;
+    }
+
+    public void changeContent(String content) {
+        this.content = content;
+    }
+
 }
