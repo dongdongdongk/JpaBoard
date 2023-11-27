@@ -8,8 +8,13 @@
         <h1 class="mt-4">Board Modify Page</h1>
         <form action="/board/modify" method="post">
             <div class="form-group">
+                <!--검색 조건을 유지하기 위한 hidden-->
+                <input type="hidden" name="page" th:value="${requestDTO.page}">
+                <input type="hidden" name="type" th:value="${requestDTO.type}">
+                <input type="hidden" name="keyword" th:value="${requestDTO.keyword}">
+
                 <label >Bno</label>
-                <input type="text" class="form-control" name="gno" th:value="${dto.bno}" readonly >
+                <input type="text" class="form-control" name="bno" th:value="${dto.bno}" readonly >
             </div>
 
             <div class="form-group">
@@ -22,7 +27,7 @@
             </div>
             <div class="form-group">
                 <label >Writer</label>
-                <input type="text" class="form-control" name="writer" th:value="${dto.writerName}" readonly>
+                <input type="text" class="form-control" th:value="${dto.writerName}" readonly>
             </div>
             <div class="form-group">
                 <label >RegDate</label>
@@ -49,10 +54,11 @@
             const removeBtn = document.querySelector(".removeBtn");
             const actionForm = document.querySelector("form");
             const modifyBtn = document.querySelector(".modifyBtn");
-            // const pageInfo = document.querySelector("input[name='page']");
-            // const typeInfo = document.querySelector("input[name='type']");
-            // const keywordInfo = document.querySelector("input[name='keyword']");
+            const pageInfo = document.querySelector("input[name='page']");
+            const typeInfo = document.querySelector("input[name='type']");
+            const keywordInfo = document.querySelector("input[name='keyword']");
             const listBtn = document.querySelector(".listBtn");
+
             removeBtn.addEventListener('click', function (){
                 actionForm.setAttribute("action","/board/remove")
                 actionForm.method = "post";
@@ -68,15 +74,15 @@
                 actionForm.submit();
             });
 
-            // listBtn.addEventListener("click", function (){
-            //     actionForm.innerHTML=""; //form 태그의 내용 삭제
-            //     actionForm.append(pageInfo); // 목록에 필요한 페이지 값 추가
-            //     actionForm.append(typeInfo); // 목록에 필요한 타입 값 추가
-            //     actionForm.append(keywordInfo); // 목록에 필요한 키워드 값 추가
-            //     actionForm.setAttribute("action", "/guestbook/list")
-            //     actionForm.method = "get";
-            //     actionForm.submit();
-            // });
+            listBtn.addEventListener("click", function (){
+                actionForm.innerHTML=""; //form 태그의 내용 삭제
+                actionForm.append(pageInfo); // 목록에 필요한 페이지 값 추가
+                actionForm.append(typeInfo); // 목록에 필요한 타입 값 추가
+                actionForm.append(keywordInfo); // 목록에 필요한 키워드 값 추가
+                actionForm.setAttribute("action", "/board/list")
+                actionForm.method = "get";
+                actionForm.submit();
+            });
 
         </script>
 

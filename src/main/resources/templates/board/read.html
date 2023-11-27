@@ -37,7 +37,7 @@
             <button type="button" class="btn btn-primary">Modify</button>
         </a>
 
-        <a th:href="@{/board/list}">
+        <a th:href="@{/board/list(page =${requestDTO.page})}">
             <button type="button" class="btn btn-info">List</button>
         </a>
     </th:block>

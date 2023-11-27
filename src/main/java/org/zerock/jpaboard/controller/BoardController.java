@@ -64,9 +64,31 @@ public class BoardController {
 
     }
 
+    @PostMapping("/modify")
+    public String modify(BoardDTO dto,
+                         @ModelAttribute("requestDTO") PageRequestDTO requestDTO,
+                         RedirectAttributes redirectAttributes){
+
+
+        log.info("post modify.........................................");
+        log.info("dto: " + dto);
+
+        boardService.modify(dto);
+
+        redirectAttributes.addAttribute("page",requestDTO.getPage());
+        redirectAttributes.addAttribute("type",requestDTO.getType());
+        redirectAttributes.addAttribute("keyword",requestDTO.getKeyword());
+
+        redirectAttributes.addAttribute("bno",dto.getBno());
+
+        return "redirect:/board/read";
+
+    }
+
+
     // 게시물 삭제
     @PostMapping("/remove")
-    public String remove(long bno, RedirectAttributes redirectAttributes){
+    public String remove(Long bno, RedirectAttributes redirectAttributes){
 
 
         log.info("bno: " + bno);
