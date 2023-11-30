@@ -2,11 +2,16 @@ package org.zerock.jpaboard.repository.search;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.zerock.jpaboard.entity.Board;
 import org.zerock.jpaboard.entity.QBoard;
@@ -14,6 +19,7 @@ import org.zerock.jpaboard.entity.QMember;
 import org.zerock.jpaboard.entity.QReply;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport implements SearchBoardRepository {
@@ -104,17 +110,44 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
             booleanBuilder.and(conditionBuilder);
         }
 
-        // where 조건에 완성된 booleanBuilder 추가
-        tuple.where(booleanBuilder);
+        //order by
+        //페이지네이션에 사용될 정렬 정보를 가져온다
+        Sort sort = pageable.getSort();
 
-        // groupBy board 추가
+        //tuple.orderBy(board.bno.desc());
+
+        // 정렬 정보에 따라 각 열에 대한 정렬 조건을 추가
+        sort.stream().forEach(order -> {
+            Order direction = order.isAscending()? Order.ASC: Order.DESC;
+            String prop = order.getProperty();
+
+            // 정렬에 사용될 엔티티(board)에 대한 PathBuilder를 생성
+            PathBuilder orderByExpression = new PathBuilder(Board.class, "board");
+            // 정렬 조건을 추가
+            tuple.orderBy(new OrderSpecifier(direction, orderByExpression.get(prop)));
+
+        });
         tuple.groupBy(board);
 
-        //결과를 list 에 담는다
+        //page 처리
+        //페이지 처리를 위해 오프셋과 리미트를 설정
+        tuple.offset(pageable.getOffset());
+        tuple.limit(pageable.getPageSize());
+
+        //쿼리를 실행하고 결과를 가져옴
         List<Tuple> result = tuple.fetch();
 
-        log.info("==={}===",result);
+        log.info("{}",result);
 
-        return null;
+        long count = tuple.fetchCount();
+
+        log.info("COUNT: " +count);
+
+        return new PageImpl<Object[]>(
+                result.stream().map(t -> t.toArray()).collect(Collectors.toList()),
+                pageable,
+                count);
     }
+
+
 }

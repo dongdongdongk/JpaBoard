@@ -117,10 +117,6 @@ public class BoardRepositoryTests {
 
         Page<Object[]> result = boardRepository.searchPage("t", "1", pageable);
 
-        for (Object page : result) {
-            
-        }
-
     }
 
 
