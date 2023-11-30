@@ -80,9 +80,6 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         //검색 조건을 추가 ( 검색 조건이 없을때는 내용물을 만들필요가 없기 때문에 bno 0 보다 크다로 끝
         BooleanExpression expression = board.bno.gt(0L);
 
-        // 마지막에 groupBy 가 필요해서 사용
-        tuple.groupBy(board);
-
         booleanBuilder.and(expression);
 
         // 검색 조건이 있다면
@@ -127,6 +124,8 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
             tuple.orderBy(new OrderSpecifier(direction, orderByExpression.get(prop)));
 
         });
+
+        // 마지막에 groupBy 가 필요해서 사용
         tuple.groupBy(board);
 
         //page 처리
