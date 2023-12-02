@@ -107,31 +107,11 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
             booleanBuilder.and(conditionBuilder);
         }
 
-        //order by
-        //페이지네이션에 사용될 정렬 정보를 가져온다
-        Sort sort = pageable.getSort();
+        tuple.where(booleanBuilder);
 
-        //tuple.orderBy(board.bno.desc());
-
-        // 정렬 정보에 따라 각 열에 대한 정렬 조건을 추가
-        sort.stream().forEach(order -> {
-            Order direction = order.isAscending()? Order.ASC: Order.DESC;
-            String prop = order.getProperty();
-
-            // 정렬에 사용될 엔티티(board)에 대한 PathBuilder를 생성
-            PathBuilder orderByExpression = new PathBuilder(Board.class, "board");
-            // 정렬 조건을 추가
-            tuple.orderBy(new OrderSpecifier(direction, orderByExpression.get(prop)));
-
-        });
-
-        // 마지막에 groupBy 가 필요해서 사용
         tuple.groupBy(board);
 
-        //page 처리
-        //페이지 처리를 위해 오프셋과 리미트를 설정
-        tuple.offset(pageable.getOffset());
-        tuple.limit(pageable.getPageSize());
+        this.getQuerydsl().applyPagination(pageable, tuple);
 
         //쿼리를 실행하고 결과를 가져옴
         List<Tuple> result = tuple.fetch();
@@ -146,6 +126,8 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
                 result.stream().map(t -> t.toArray()).collect(Collectors.toList()),
                 pageable,
                 count);
+
+
     }
 
 
