@@ -51,4 +51,5 @@ public class ReplyRepositoryTests {
 
         replyList.forEach(reply -> System.out.println(reply));
     }
+
 }
