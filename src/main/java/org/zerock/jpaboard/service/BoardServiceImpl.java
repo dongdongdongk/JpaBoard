@@ -48,11 +48,15 @@ public class BoardServiceImpl implements BoardService {
 
         Function<Object[], BoardDTO> fn = (en -> entityToDTO((Board)en[0],(Member)en[1],(Long)en[2]));
 
-        Page<Object[]> result = boardRepository.getBoardWithReplyCount(
+//        Page<Object[]> result = boardRepository.getBoardWithReplyCount(
+//                pageRequestDTO.getPageable(Sort.by("bno").descending()));
+       // 검색 기능이 포함된 게시글 리스트 
+        Page<Object[]> result = boardRepository.searchPage(
+                pageRequestDTO.getType(),
+                pageRequestDTO.getKeyword(),
                 pageRequestDTO.getPageable(Sort.by("bno").descending()));
 
-
-        return new PageResultDTO<>(result, fn);
+        return new PageResultDTO<>(result,fn);
     }
 
    //게시물 상세 조회

@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.zerock.jpaboard.entity.Board;
 import org.zerock.jpaboard.entity.Reply;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -41,5 +42,13 @@ public class ReplyRepositoryTests {
 
         System.out.println(reply.getBoard());
 
+    }
+
+    // 게시글 97번의 댓글 가져오기
+    @Test
+    public void testListByBoard() {
+        List<Reply> replyList = replyRepository.getRepliesByBoardOrderByRno(Board.builder().bno(97L).build()); //Builder 로 객체생성
+
+        replyList.forEach(reply -> System.out.println(reply));
     }
 }

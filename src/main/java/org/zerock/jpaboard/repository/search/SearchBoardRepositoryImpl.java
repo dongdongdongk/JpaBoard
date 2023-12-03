@@ -111,6 +111,7 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
 
         tuple.groupBy(board);
 
+
         this.getQuerydsl().applyPagination(pageable, tuple);
 
         //쿼리를 실행하고 결과를 가져옴
@@ -126,8 +127,6 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
                 result.stream().map(t -> t.toArray()).collect(Collectors.toList()),
                 pageable,
                 count);
-
-
     }
 
 
