@@ -131,6 +131,14 @@
                 // 댓글 입력 부분을 초기화 하는부분
                 document.querySelector('input[name="replyText"]').value = '';
                 document.querySelector('input[name="replyer"]').value = '';
+
+                // modal-footer 클래스 내의 모든 버튼을 숨김
+                document.querySelectorAll(".modal-footer .btn").forEach(function(button) {
+                    button.style.display = "none";
+                });
+                // .replySave와 .replyRemove 버튼을 보이도록 변경
+                document.querySelector(".replySave").style.display = "block";
+                document.querySelector(".replyRemove").style.display = "block";
             });
 
             // 모달 x 버튼 클릭 시 닫기
