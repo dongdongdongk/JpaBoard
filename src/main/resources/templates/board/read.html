@@ -128,6 +128,9 @@
            // 모달 불러오기
             addReply.addEventListener("click",function (){
                modal.style.display = "block";
+                // 댓글 입력 부분을 초기화 하는부분
+                document.querySelector('input[name="replyText"]').value = '';
+                document.querySelector('input[name="replyer"]').value = '';
             });
 
             // 모달 x 버튼 클릭 시 닫기
