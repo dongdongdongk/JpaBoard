@@ -84,6 +84,7 @@
             const replyCount = document.querySelector(".replyCount");
             const listGroup = document.querySelector(".replyList");
             let bno = [[${dto.bno}]];
+            //페이지 로드 시 초기화
             document.addEventListener("DOMContentLoaded", function () {
 
                 replyCount.addEventListener("click", function () {
@@ -99,6 +100,8 @@
                 console.log(date)
                 return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
             }
+
+            //댓글 출력 함수
             function loadJSONDate() {
                 fetch('/replies/board/' + bno)
                     .then(response => response.json())
@@ -163,12 +166,13 @@
                     replyer : replyer.value,
                 }
 
+                // Ajax 통신 댓글 추가
                 fetch("/replies/",{
                     method : "POST",
                     headers : {
                         "Content-Type" : "application/json",
                     },
-                    body : JSON.stringify(date),
+                    body : JSON.stringify(reply),
                 })
                     .then(response =>{
                         if (!response.ok) {
@@ -178,7 +182,7 @@
                     })
                     .then(result => {
                         console.log(result);
-                        let newRno = parseInt(date);
+                        let newRno = parseInt(result);
                         alert(newRno + "번 등록")
                         modal.style.display = "none";
                         loadJSONDate();
