@@ -124,6 +124,37 @@
                     .catch(error => console.error('Error:', error));
             }
 
+            // 댓글 클릭 상세출력
+            listGroup.addEventListener("click",function (event){
+               if(event.target.classList.contains("card-body")) {
+                   //dataset.rno 는 data-rno 속성의 값을 가져오는것
+                   let rno = event.target.dataset.rno;
+
+                   let cardTitleElement = event.target.querySelector('.card-title');
+                   let cardSubTitleElement = event.target.querySelector('.card-subtitle')
+                   if (cardTitleElement) {
+                       // replyText의 값을 클릭된 "card-body"의 .card-title HTML 내용으로 설정
+                       replyText.value = cardTitleElement.innerHTML;
+                   }
+                   if (cardSubTitleElement) {
+                       replyer.value = cardSubTitleElement.innerHTML
+                   }
+
+                   let inputRno = document.querySelector("input[name ='rno']");
+                   inputRno.value = rno;
+
+                   // modal-footer 클래스 내의 모든 버튼을 숨김
+                   document.querySelectorAll(".modal-footer .btn").forEach(function(button) {
+                       button.style.display = "none";
+                   });
+                   // .replySave와 .replyRemove 버튼을 보이도록 변경
+                   document.querySelector(".replySave").style.display = "block";
+                   document.querySelector(".replyRemove").style.display = "block";
+
+                   modal.style.display = "block";
+               }
+            });
+
             const modal = document.querySelector(".modal");
             const addReply = document.querySelector(".addReply");
             const closeModalBtn = document.querySelector(".close");
@@ -157,8 +188,8 @@
 
             // 댓글 객체 만들기
             const replySave = document.querySelector(".replySave");
-            const replyText = document.querySelector("input[name = 'replyText']");
-            const replyer = document.querySelector("input[name = 'replyer']");
+            let replyText = document.querySelector("input[name = 'replyText']");
+            let replyer = document.querySelector("input[name = 'replyer']");
             replySave.addEventListener("click",function (){
                 let reply = {
                     bno : bno,
