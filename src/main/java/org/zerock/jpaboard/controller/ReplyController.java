@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.zerock.jpaboard.dto.ReplyDTO;
 import org.zerock.jpaboard.service.ReplyService;
 
@@ -28,6 +25,12 @@ public class ReplyController {
         log.info("bno: " + bno);
 
         return new ResponseEntity<>(replyService.getList(bno), HttpStatus.OK);
+
+    }
+
+    public ResponseEntity<Long> register (@RequestBody ReplyDTO replyDTO) {
+
+        log.info("{}",replyDTO);
 
     }
 
