@@ -221,13 +221,34 @@
 
             });
             // 댓글 삭제기능
-            document.querySelector(".replyRemove").addEventListener("click",function (){
-               let rno = document.querySelector("input[name = 'rno']").value;
-                fetch("replies/" + rno, {
+            document.querySelector(".replyRemove").addEventListener("click", function () {
+                let rno = document.querySelector("input[name='rno']").value;
+
+                fetch("/replies/" + rno, {
                     method: "DELETE",
                 })
-                    .then((response) => response.json())
-                    .then((data) => console.log(data))
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        // 여기서 JSON 형식이 아니면 문자열로 처리(에러가 발생하면 .catch() success 를 반환)
+                        return response.json().catch(() => "success");
+                    })
+                    .then(data => {
+                        if (data === "success") {
+                            // 성공적으로 삭제되었을 때의 처리
+                            alert(rno + "번 삭제");
+                            modal.style.display = "none";
+                            listGroup.innerHTML = "";
+                            loadJSONDate();
+                        } else {
+                            // JSON 형식이 아닌 경우의 처리
+                            console.error('Invalid JSON response:', data);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Delete error:', error);
+                    });
             });
 
         </script>
