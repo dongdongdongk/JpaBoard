@@ -229,7 +229,7 @@
                 })
                     .then(response => {
                         if (!response.ok) {
-                            throw new Error('Network response was not ok');
+                            throw new Error('연결실패');
                         }
                         // 여기서 JSON 형식이 아니면 문자열로 처리(에러가 발생하면 .catch() success 를 반환)
                         return response.json().catch(() => "success");
@@ -249,6 +249,51 @@
                     .catch(error => {
                         console.error('Delete error:', error);
                     });
+            });
+
+            // 댓글 수정 기능
+            document.querySelector(".replyModify").addEventListener("click",function (){
+               let rno = document.querySelector("input[name = 'rno']").value;
+               let text = document.querySelector("input[name = 'replyText']").value;
+               let replyer = document.querySelector("input[name = 'replyer']").value;
+
+               // 댓글 객체 생성
+               let reply = {
+                   rno : rno,
+                   bno : bno,
+                   text : text,
+                   replyer : replyer
+               }
+
+               fetch("/replies/" + rno, {
+                   method : "PUT",
+                   headers : {
+                       "Content-Type" : "application/json",
+                   },
+                   body : JSON.stringify(reply)
+               })
+                   .then(response => {
+                       if(!response.ok) {
+                           throw new Error("연결실패");
+                       }
+                       // 여기서 JSON 형식이 아니면 문자열로 처리(에러가 발생하면 .catch() success 를 반환)
+                       return response.json().catch(() => "success");
+                   })
+                   .then(data => {
+                       if (data === "success") {
+                           //등록 완료시 처리
+                           alert(rno + "번 수정 완료")
+                           modal.style.display = "none";
+                           listGroup.innerHTML = "";
+                           loadJSONDate();
+                       } else {
+                           // JSON 형식이 아닌 경우의 처리
+                           console.error('Invalid JSON response:', data);
+                       }
+                   })
+                   .catch(error => {
+                       console.error('Modify error:', error);
+                   })
             });
 
         </script>
