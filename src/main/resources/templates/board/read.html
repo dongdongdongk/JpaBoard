@@ -144,12 +144,12 @@
                    inputRno.value = rno;
 
                    // modal-footer 클래스 내의 모든 버튼을 숨김
-                   document.querySelectorAll(".modal-footer .btn").forEach(function(button) {
-                       button.style.display = "none";
-                   });
+                   // document.querySelectorAll(".modal-footer .btn").forEach(function(button) {
+                   //     button.style.display = "none";
+                   // });
                    // .replySave와 .replyRemove 버튼을 보이도록 변경
-                   document.querySelector(".replySave").style.display = "block";
-                   document.querySelector(".replyRemove").style.display = "block";
+                   // document.querySelector(".replySave").style.display = "block";
+                   // document.querySelector(".replyRemove").style.display = "block";
 
                    modal.style.display = "block";
                }
@@ -267,16 +267,18 @@
 
                fetch("/replies/" + rno, {
                    method : "PUT",
+                   // 서버에게 클라이언트가 보낸 데이터가 JSON 형식이라는 것을 알려주는 것
                    headers : {
                        "Content-Type" : "application/json",
                    },
+                   //  reply 객체를 JSON 형식의 문자열로 변환
                    body : JSON.stringify(reply)
                })
                    .then(response => {
                        if(!response.ok) {
                            throw new Error("연결실패");
                        }
-                       // 여기서 JSON 형식이 아니면 문자열로 처리(에러가 발생하면 .catch() success 를 반환)
+                       //  response에서 JSON 추출을 시도하고, 만약 에러가 발생하면 "success"를 반환
                        return response.json().catch(() => "success");
                    })
                    .then(data => {
