@@ -126,7 +126,9 @@
 
             // 댓글 클릭 상세출력
             listGroup.addEventListener("click",function (event){
-               if(event.target.classList.contains("card-body")) {
+
+                // 넓은 클릭을 위해 부모 요소들을 거슬러 올라가면서 .card-body 클래스를 가진 요소를 찾도록 closest
+                if(event.target.closest(".card-body")) {
                    //dataset.rno 는 data-rno 속성의 값을 가져오는것
                    let rno = event.target.dataset.rno;
 
@@ -185,6 +187,12 @@
                     modal.style.display = 'none';
                 }
             });
+
+            // close 버튼 클릭 시 닫기
+            document.querySelector(".replyClose").addEventListener("click", function (){
+                modal.style.display = 'none';
+            });
+
 
             // 댓글 객체 만들기
             const replySave = document.querySelector(".replySave");
